@@ -2,7 +2,7 @@ angular
   .module('angularExpenseApp', [
   ])
   .controller('expenseController', function ($scope) {
-    $scope.friends= ["allo", "gobhi", "piyaaz"];
+    $scope.friends= ["Sandy","Andy","Mandy","Xandy"];
     $scope.currencies = [
       {name:"USD",exc_rate:"60.0"},
       {name:"INR",exc_rate:"1"},
@@ -13,10 +13,9 @@ angular
     $scope.filtr = { };
     $scope.currencyfiltr = { };
     $scope.setCurrency = function(name){
-      this.cname = name;
+      var _cname = name;
       for (var key in $scope.expenses) {
-        if ($scope.expenses.hasOwnProperty(key)) {
-            if (this.cname == "INR") {
+            if (_cname == "INR") {
               if (key.currency == "EUR") {
                       key.amount = key.amount * 70.0;
               }
@@ -24,7 +23,7 @@ angular
                       key.amount = key.amount * 60.0;
               }
             }
-            else if (this.cname == "EUR") {
+            else if (_cname == "EUR") {
               if (key.currency == "INR") {
                   key.amount = key.amount / 70.0;  
               }
@@ -41,11 +40,12 @@ angular
               }
             }
             }
-            }
           };
 
     $scope.addExpense = function (expense) {
-      $scope.expenses.push($scope.expense);
-      $scope.expense = '';
+      if (Object.keys(expense).length > 1){
+        $scope.expenses.push($scope.expense);
+        $scope.expense = '';
+      }
     };
   });
