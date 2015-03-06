@@ -14,32 +14,40 @@ angular
     $scope.currencyfiltr = { };
     $scope.setCurrency = function(name){
       var _cname = name;
-      for (var key in $scope.expenses) {
+      $scope.flag = "it is running";
+      $scope.expenses.forEach(function(key){
+            $scope.fla = key;
             if (_cname == "INR") {
               if (key.currency == "EUR") {
                       key.amount = key.amount * 70.0;
+                      key.currency = "INR";
               }
-              else {
+              else if (key.currency == "USD"){
                       key.amount = key.amount * 60.0;
+                      key.currency = "INR";
               }
             }
             else if (_cname == "EUR") {
               if (key.currency == "INR") {
                   key.amount = key.amount / 70.0;  
+                  key.currency = "EUR";
               }
-              else {
+              else if(key.currency == "USD"){
                   key.amount = (key.amount /70)*60;
+                  key.currency = "EUR";
               }
             }
             else{
               if (key.currency == "INR") {
                   key.amount = key.amount / 60.0;
+                  key.currency = "USD";
               }
-              else {
+              else if (key.currency == "EUR"){
                   key.amount = (key.amount / 60.0)*70.0
+                  key.currency = "USD";
               }
             }
-            }
+            });
           };
 
     $scope.addExpense = function (expense) {

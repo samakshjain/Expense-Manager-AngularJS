@@ -18,7 +18,7 @@
 
    <div id="form-box">
       <h2>Add a new item:</h2>
-      <div class="add-btn">
+      <div class="add-btn active">
          <span class="add-text">Add a friend</span>
          <div class="friend-input">
             <div><input type="text" placeholder="Eg: Vandy" /></div>
@@ -29,11 +29,11 @@
          </span>
       </div>
       <div>
-         <form name="expform" ng-submit = "addExpense(expense)" novalidate>
+         <form name="expform" ng-submit="addExpense(expense)" id="form-box" novalidate>
            <div>
              <span>Type:</span> 
                <select ng-model="expense.types" placeholder="Select mode of payment" required>
-                   <option value='' disabled="">- Please chose the mode of payment-</option>
+                   <option value='' disabled>- Please chose the mode of payment-</option>
                    <option value='Card'>Card</option>
                    <option value='Cash'>Cash</option>
                    <option value='Other'>Other</option>
@@ -47,34 +47,37 @@
                    <option value="Randy">Randy</option>
                    <option value="Mandy">Mandy</option>
                </select> -->
-               <select ng-model="expense.SelectedFriends" ng-options="friend as friend for friend in friends" multiple="multiple" required>Select a friend</select>
-             <div class="error-msg"></div>
+               <select name="friend" ng-model="expense.SelectedFriends" ng-options="friend as friend for friend in friends" multiple="multiple" required>Select a friend</select>
            </div>
            <div>
-             <span>Name:</span> <input name"item" type="text" ng-model="expense.itemName" placeholder="What did you spend on?" required>
-             <div class="error-msg"><!--Please select an option--></div>
+             <span>Name:</span> <input name"itemName" type="text" ng-model="expense.itemName" placeholder="What did you spend on?" required>
+             <div class="error-msg" ng-show="expform.itemName.$touched">Please enter the name of the expense.</div>
+             {{expform.itemName.$touched}}
            </div>
            <div>
-             <span>Date:</span> <input type="date" ng-model="expense.date" ng-change="setCurrency(currencyfiltr)">
-             <div class="error-msg"><!--Please select an option--></div>
+             <span>Date:</span> <input name="xdate" type="date" ng-model="expense.date" ng-change="setCurrency(currencyfiltr)">
+             <div class="error-msg" ng-show="expform.xdate.$touched">Please enter a date.</div>
            </div>
 
            <div>
              <span>Currency:</span> 
                <select ng-model="expense.currency" type ="number" required>
-                <option value='' disabled="">- Please choose the currency-</option>
+                <option value='' disabled>- Please choose the currency-</option>
                   <option ng-repeat="currenC in currencies" value="{{currenC.name}}">{{currenC.name}}</option>
                </select>
            </div>
            <div>
-             <span>Amount:</span> <input type="number" ng-model="expense.amount" placeholder="How much?" required >
-             <div class="error-msg">Cannot be empty</div>
+             <span>Amount:</span> <input type="number" name="amount" ng-model="expense.amount" ng-model-options="{updateOn: 'blur'}" placeholder="How much?" required >
+             <div ng-show="expform.amount.$touched" class="error-msg">
+             	<p>Cannot be empty</p>
+             	<p ng-show="expform.amount.$invalid">You must enter a number</p>
+             </div>
            </div>
-           {{expense}}
+           <!-- {{expense}}
            {{expenses}}
            {{objectOnScope}}
-           {{expform.$invalid}}
-           <button id="button" type="submit" id="submit" ng-disabled="expform.$invalid">Add Expense!</button>
+           {{expform.$invalid}} -->
+           <button id="button" type="submit" ng-disabled="expform.$invalid">Add Expense!</button>
          </form>
 
       </div>
@@ -82,15 +85,20 @@
    <div class="filter-block">
        <div class="filter-option">
          <span>Filter by friend:</span>
-         <select ng-model="filtr" ng-options="friend as friend for friend in friends"></select>
+         <select ng-model="filtr" ng-options="friend as friend for friend in friends">
+         	<option value='' disabled selected>- Please choose the friend-</option>
+         </select>
 
        </div>
        <div class="filter-option">
          <span>Currency:</span>
          <select ng-model="currencyfiltr" ng-change="setCurrency(currencyfiltr)">
+         	<option value='' disabled selected>- Please choose the currency-</option>
             <option ng-repeat="currenC in currencies" value="{{currenC.name}}">{{currenC.name}}</option>
          </select>
        </div>
+       {{flag}}
+       {{fla}}
    </div>
    <table>
       <tr>
@@ -110,7 +118,7 @@
          <td>{{ expense.itemName }}</td>
          <td > <span ng-repeat="friend in expense.SelectedFriends">{{friend}}{{$last ? '' : ', '}}  &nbsp;</span></td>
          <td>{{ expense.date | date:'MMM d, y'}}</td>
-         <td>{{ expense.amount }}</td>
+         <td>{{ expense.amount | number :2}}</td>
       </tr>
    </table>
 </body>

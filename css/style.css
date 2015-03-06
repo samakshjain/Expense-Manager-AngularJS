@@ -188,8 +188,8 @@ form .error-msg {
   position: absolute;
   color: #e74c3c;
   bottom: 10px;
-  left: 0;
-  font-size: 12px;
+  left-margin: 50px;
+  font-size: 15px;
 }
 
 #type {
