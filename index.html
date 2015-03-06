@@ -18,7 +18,7 @@
 
    <div id="form-box">
       <h2>Add a new item:</h2>
-      <div class="add-btn active">
+      <div class="add-btn">
          <span class="add-text">Add a friend</span>
          <div class="friend-input">
             <div><input type="text" placeholder="Eg: Vandy" /></div>
@@ -52,11 +52,10 @@
            <div>
              <span>Name:</span> <input name"itemName" type="text" ng-model="expense.itemName" placeholder="What did you spend on?" required>
              <div class="error-msg" ng-show="expform.itemName.$touched">Please enter the name of the expense.</div>
-             {{expform.itemName.$touched}}
            </div>
            <div>
              <span>Date:</span> <input name="xdate" type="date" ng-model="expense.date" ng-change="setCurrency(currencyfiltr)">
-             <div class="error-msg" ng-show="expform.xdate.$touched">Please enter a date.</div>
+             <div class="error-msg" ng-show="!expform.xdate">Please enter a date.</div>
            </div>
 
            <div>
@@ -69,7 +68,7 @@
            <div>
              <span>Amount:</span> <input type="number" name="amount" ng-model="expense.amount" ng-model-options="{updateOn: 'blur'}" placeholder="How much?" required >
              <div ng-show="expform.amount.$touched" class="error-msg">
-             	<p>Cannot be empty</p>
+             	<p ng-show="!expform.amount">Cannot be empty</p>
              	<p ng-show="expform.amount.$invalid">You must enter a number</p>
              </div>
            </div>
@@ -97,8 +96,6 @@
             <option ng-repeat="currenC in currencies" value="{{currenC.name}}">{{currenC.name}}</option>
          </select>
        </div>
-       {{flag}}
-       {{fla}}
    </div>
    <table>
       <tr>
@@ -119,6 +116,8 @@
          <td > <span ng-repeat="friend in expense.SelectedFriends">{{friend}}{{$last ? '' : ', '}}  &nbsp;</span></td>
          <td>{{ expense.date | date:'MMM d, y'}}</td>
          <td>{{ expense.amount | number :2}}</td>
+         <td><i class="fa fa-pencil"></i></td>
+         <td><i class="fa fa-trash-o"></i></td>
       </tr>
    </table>
 </body>

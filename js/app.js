@@ -52,8 +52,22 @@ angular
 
     $scope.addExpense = function (expense) {
       if (Object.keys(expense).length > 1){
-        $scope.expenses.push($scope.expense);
+        $scope.expenses.push(expense);
         $scope.expense = '';
+        $scope.expform.$setPristine();
+        $scope.expform.$setUntouched();
+
       }
+    };
+    $scope.addFriend = function(fName){
+      if(fName){
+        $scope.friends.push(fName);
+      }
+    };
+    $scope.deleteExpense = function(index){
+
+    };
+    $scope.editExpense = function(index){
+
     };
   });
