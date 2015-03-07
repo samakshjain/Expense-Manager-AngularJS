@@ -8,13 +8,16 @@ angular
       {name:"INR",exc_rate:"1"},
       {name:"EUR",exc_rate:"70.0"}
     ];
+    $scope.uid = 0;
+    $scope.f_name = '';
+    $scope.toggle = false;
     $scope.expense = '';
     $scope.expenses = [];
     $scope.filtr = { };
     $scope.currencyfiltr = { };
     $scope.setCurrency = function(name){
       var _cname = name;
-      $scope.flag = "it is running";
+      // $scope.flag = "it is running";
       $scope.expenses.forEach(function(key){
             $scope.fla = key;
             if (_cname == "INR") {
@@ -49,25 +52,28 @@ angular
             }
             });
           };
-
     $scope.addExpense = function (expense) {
       if (Object.keys(expense).length > 1){
+        $scope.expense.uid = $scope.uid + 1;
+        $scope.uid += 1;
         $scope.expenses.push(expense);
         $scope.expense = '';
         $scope.expform.$setPristine();
         $scope.expform.$setUntouched();
-
+        //set the status of the whole form to pristine and untouched, or in other words to 'new'.
       }
     };
     $scope.addFriend = function(fName){
       if(fName){
         $scope.friends.push(fName);
-      }
+        $scope.f_name = '';
+      };
+      $scope.toggle = !($scope.toggle)
     };
-    $scope.deleteExpense = function(index){
+    $scope.deleteExpense = function(xPense){
 
     };
-    $scope.editExpense = function(index){
+    $scope.editExpense = function(xPense){
 
     };
   });
