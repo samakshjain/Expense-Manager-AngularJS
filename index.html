@@ -19,7 +19,7 @@
    <h1>Simple expense manager project</h1>
 
    <div id="form-box">
-      <h2>Add a new item:</h2>
+      <h2>{{addHeader}}</h2>
       <div class="add-btn" ng-class= "{'active' : toggle}">
       <!-- ng-class to toggle to active class, toggle is set to false in controller -->
          <span class="add-text">Add a friend</span>
@@ -79,11 +79,9 @@
              	<!-- error if NaN -->
              </div>
            </div>
-           <!-- {{expense}}
-           {{expenses}}
            {{objectOnScope}}
-           {{expform.$invalid}} -->
-           <div id="button" ng-click="addExpense(expense)" type="submit" ng-disabled="expform.$invalid">Add Expense!</div>
+           {{expform.$invalid}}
+           <div id="button" ng-click="addExpense(expense)" ng-class="{'restricted' : expform.$invalid}" type="submit">{{buttonText}}</div>
          </form>
 
       </div>
@@ -120,14 +118,15 @@
        <td colspan="4"><span>Your added items will show up here!</span></td>
       </tr>
       <tr ng-repeat="expense in expenses | filter : filtr | orderBy:'date':true">
-         <td>{{ expense.types }}</td>
+         <td>{{ expense.types }}{{ expenses.indexOf(expense)}}</td>
          <td>{{ expense.itemName }}</td>
          <td > <span ng-repeat="friend in expense.SelectedFriends">{{friend}}{{$last ? '' : ', '}}  &nbsp;</span></td>
          <td>{{ expense.date | date:'MMM d, y'}}</td>
          <td>{{ expense.amount | number :2}}</td>
-         <td><i class="fa fa-pencil"></i></td>
-         <td><i class="fa fa-trash-o" ng-click=""></i></td>
+         <td><i class="fa fa-pencil" ng-click="editExpense(expenses.indexOf(expense))"></i></td>
+         <td><i class="fa fa-trash-o" ng-click="deleteExpense(expenses.indexOf(expense))"></i></td>
       </tr>
+     
    </table>
 </body>
 

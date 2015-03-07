@@ -8,13 +8,15 @@ angular
       {name:"INR",exc_rate:"1"},
       {name:"EUR",exc_rate:"70.0"}
     ];
-    $scope.uid = 0;
     $scope.f_name = '';
     $scope.toggle = false;
     $scope.expense = '';
     $scope.expenses = [];
     $scope.filtr = { };
     $scope.currencyfiltr = { };
+    $scope.buttonText = "Add Expense!";
+    $scope.addHeader = "Add a new Expense >"
+    // $scope.flag = '';
     $scope.setCurrency = function(name){
       var _cname = name;
       // $scope.flag = "it is running";
@@ -54,13 +56,12 @@ angular
           };
     $scope.addExpense = function (expense) {
       if (Object.keys(expense).length > 1){
-        $scope.expense.uid = $scope.uid + 1;
-        $scope.uid += 1;
         $scope.expenses.push(expense);
         $scope.expense = '';
         $scope.expform.$setPristine();
         $scope.expform.$setUntouched();
         //set the status of the whole form to pristine and untouched, or in other words to 'new'.
+        $scope.buttonText = "Add Expense!";
       }
     };
     $scope.addFriend = function(fName){
@@ -70,10 +71,14 @@ angular
       };
       $scope.toggle = !($scope.toggle)
     };
-    $scope.deleteExpense = function(xPense){
-
+    $scope.deleteExpense = function(id){
+        if (id > -1) {
+          $scope.expenses.splice(id,1);
+        }
     };
-    $scope.editExpense = function(xPense){
-
+    $scope.editExpense = function(id){
+      $scope.expense = $scope.expenses[id];
+      $scope.buttonText = "Done Editing!";
+      $scope.addHeader = "Edit the entry!";
     };
   });
